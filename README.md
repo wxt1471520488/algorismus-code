@@ -1,2 +1,2 @@
 # algorismus-code
-algorismus code
+算法
