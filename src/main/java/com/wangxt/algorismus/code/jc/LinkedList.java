@@ -1,27 +1,31 @@
 package com.wangxt.algorismus.code.jc;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 public class LinkedList {
 
     @Getter
     @Setter
-    static class Node {
-        private Integer value;
-        private Node next;
+    @NoArgsConstructor
+    static class SingleNode {
+        private int value;
+        private SingleNode next;
 
-        public Node(int value) {
+        public SingleNode(int value) {
             this.value = value;
         }
     }
 
     @Getter
     @Setter
+    @NoArgsConstructor
     static class DoubleNode {
-        private Integer value;
-        private DoubleNode next;
+        private int value;
         private DoubleNode last;
+        private DoubleNode next;
 
         public DoubleNode(int value) {
             this.value = value;
@@ -29,43 +33,89 @@ public class LinkedList {
     }
 
     public static void main(String[] args) {
-        Node n1 = new Node(1);
-        n1.next = new Node(2);
-        n1.next.next = new Node(3);
-        n1.next.next.next = new Node(4);
+        SingleNode node = new SingleNode(1);
+        node.next = new SingleNode(2);
+        node.next.next = new SingleNode(3);
+        print(node);
+        SingleNode res = reverseSort(node);
+        print(res);
+        System.out.println("---------------");
 
-        print(n1);
-        Node revert = singleRevert(n1);
-        print(revert);
+        DoubleNode doubleNode = new DoubleNode(1);
+        DoubleNode doubleNode1 = new DoubleNode(2);
+        DoubleNode doubleNode2 = new DoubleNode(3);
+        DoubleNode doubleNode3 = new DoubleNode(4);
+
+        doubleNode.next = doubleNode1;
+        doubleNode.last = null;
+
+        doubleNode1.last = doubleNode;
+        doubleNode1.next = doubleNode2;
+
+        doubleNode2.last = doubleNode1;
+        doubleNode2.next = doubleNode3;
+
+        doubleNode3.last = doubleNode2;
+        doubleNode3.next = null;
+        print(doubleNode);
+        DoubleNode result = reverseDoubleSort(doubleNode);
+        print(result);
+        System.out.println("-----------------------");
+
+        Collection<Integer> queue = new SingleQueue<>();
+        queue.offer(1);
+        queue.offer(2);
+        queue.offer(3);
+
+        System.out.println(queue.size());
+        System.out.println(queue.peek());
+        System.out.println(queue.poll());
+        System.out.println(queue.peek());
+        System.out.println("-------------------------");
+
+        Collection<Integer> stack = new SingleStack<>();
+        stack.offer(1);
+        stack.offer(2);
+        stack.offer(3);
+
+        System.out.println(stack.size());
+        System.out.println(stack.peek());
+        System.out.println(stack.poll());
+        System.out.println(stack.peek());
     }
 
-    private static void print(Node head) {
+    /**
+     * 单链表逆序
+     */
+    private static SingleNode reverseSort(SingleNode head) {
+        SingleNode pre = null;
+        SingleNode next = null;
         while (head != null) {
-            System.out.println(head.value);
-            head = head.next;
-        }
-    }
-
-    private static Node singleRevert(Node head) {
-        Node pre = null;
-        Node next = null;
-        Node cur = head;
-        while (cur != null) {
-            next = cur.next;
-            cur.next = pre;
-            pre = cur;
-            cur = next;
+            // 先将 head 的 next 抓住
+            next = head.next;
+            // 然后将 head 的 next 指向 pre,这时候 head 和 next 没有任何指向（循环到第二次将）
+            head.next = pre;
+            // 然后将 pre 往后移，叫 pre 指向 head
+            pre = head;
+            // head 也往后移，这时 head 指向 第一步抓到的 next,往后循环
+            head = next;
         }
 
         return pre;
     }
 
-    private static DoubleNode doubleRevert(DoubleNode head) {
+    /**
+     * 双链表逆序
+     */
+    private static DoubleNode reverseDoubleSort(DoubleNode head) {
         DoubleNode pre = null;
         DoubleNode next = null;
         while (head != null) {
+            // 一样，还是先将 head 的 next 抓住
             next = head.next;
+            // 然后将 head 的 next 指向 pre
             head.next = pre;
+            // 将 head 的 last 指向 next
             head.last = next;
             pre = head;
             head = next;
@@ -74,218 +124,150 @@ public class LinkedList {
         return pre;
     }
 
-    ////////////////////////////////////// 单链表实现栈和队列
+    private static void print(SingleNode head) {
+        while (head != null) {
+            System.out.print(head.value + " , ");
+            head = head.next;
+        }
+        System.out.println();
+    }
+
+    private static void print(DoubleNode head) {
+        while (head != null) {
+            System.out.print(head.value + " , ");
+            head = head.next;
+        }
+        System.out.println();
+    }
+
     @Getter
     @Setter
-    public static class StackAndQueueNode<V> {
-        private V value;
-        private StackAndQueueNode<V> next;
+    static class SingleStackNode<T> {
+        private T value;
+        private SingleStackNode<T> next;
 
-        public StackAndQueueNode(V value) {
+        public SingleStackNode(T value) {
             this.value = value;
         }
-    }
-
-    public static class MySingleNodeQueue<V> {
-        private StackAndQueueNode<V> head;
-        private StackAndQueueNode<V> tail;
-        private int size;
-
-        public boolean isEmpty() {
-            return size == 0;
-        }
-
-        public int size() {
-            return size;
-        }
-
-        public void offer(V value) {
-            StackAndQueueNode<V> cur = new StackAndQueueNode<>(value);
-            if (tail == null) {
-                head = cur;
-                tail = cur;
-            } else {
-                // 从尾部加
-                tail.next = cur;
-                // node之间关联起来
-                tail = cur;
-            }
-            size++;
-        }
-
-        public V poll() {
-            // 从头部取
-            if (head == null) {
-                tail = null;
-                return null;
-            }
-
-            V res = head.value;
-            head = head.next;
-            size--;
-            return res;
-        }
-
-        public V peek() {
-            return head == null ? null : head.value;
-        }
-    }
-
-
-    public static class MySingleNodeStack<V> {
-        private StackAndQueueNode<V> head;
-        private int size;
-
-        public boolean isEmpty() {
-            return size == 0;
-        }
-
-        public int size() {
-            return size;
-        }
-
-        public void offer(V value) {
-            StackAndQueueNode<V> cur = new StackAndQueueNode<>(value);
-            cur.next = head;
-            head = cur;
-            size++;
-        }
-
-        public V poll() {
-            if (head == null) {
-                return null;
-            }
-
-            V res = head.value;
-            head = head.next;
-            size--;
-            return res;
-        }
-
-        public V peek() {
-            if (head == null) {
-                return null;
-            }
-            return head.value;
-        }
-    }
-
-    //////////////////////// 双链表实现双端队列
-    @Getter
-    @Setter
-    public static class DoubleStackAndQueueNode<V> {
-        private V value;
-        private DoubleStackAndQueueNode<V> next;
-        private DoubleStackAndQueueNode<V> last;
-
-        public DoubleStackAndQueueNode(V value) {
-            this.value = value;
-        }
-    }
-
-    public static class MyDoubleQueue<V> {
-        private int size;
-        private DoubleStackAndQueueNode<V> head;
-        private DoubleStackAndQueueNode<V> tail;
-
-        public boolean isEmpty() {
-            return size == 0;
-        }
-
-        public int size() {
-            return size;
-        }
-
-        public void pushHead(V value) {
-            DoubleStackAndQueueNode<V> cur = new DoubleStackAndQueueNode<>(value);
-            cur.next = head;
-            head.last = cur;
-            head = cur;
-            size++;
-        }
-
-        public void pushTail(V value) {
-            DoubleStackAndQueueNode<V> cur = new DoubleStackAndQueueNode<>(value);
-            tail.next = cur;
-            cur.last = tail;
-            tail = cur;
-            size++;
-        }
-
-        public V popHead() {
-            if (head == null) {
-
-            }
-
-            if (head == tail) {
-
-            }
-
-            return null;
-        }
-
-        public V popTail() {
-            return null;
-        }
-
-        public V peekHead() {
-            return null;
-        }
-
-        public V peekTail() {
-            return null;
-        }
-    }
-
-    ///////////////////////////// k个节点的组内逆序调整
-    // https://leetcode.cn/problems/reverse-nodes-in-k-group/submissions/
-    // 截取链表固定长度，并返回尾节点
-    private Node split(Node head, int len) {
-        while (--len > 0 && head != null) {
-            head = head.next;
-        }
-
-        return head;
-    }
-
-    private void revert(Node start, Node end) {
-        end = end.next;
-        Node pre = null;
-        Node next = null;
-        while (start.next != null) {
-            next = start.next;
-            start.next = pre;
-            pre = start;
-            start = next;
-        }
-        start.next = end;
-    }
-
-    private Node groupAndSort(Node head, int len) {
-        Node start = head;
-        Node end = split(start, len);
-        if (end == null) {
-            return head;
-        }
-
-        head = end;
-        revert(start, end);
-        Node listEnd = start;
-        while (listEnd.next != null) {
-            start = listEnd.next;
-            end = split(start, len);
-            if (end == null) {
-                return head;
-            }
-
-            revert(start, end);
-            listEnd.next = end;
-            listEnd = start;
-        }
-
-        return head;
     }
 }
+
+
+class SingleQueue<T> implements Collection<T> {
+    // 记录 head ，因为出队需要从 head 往外出
+    private LinkedList.SingleStackNode<T> head;
+    // 记录 tail ，因为添加元素需要从 tail 添加
+    private LinkedList.SingleStackNode<T> tail;
+
+    private int size;
+
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public T peek() {
+        if (head != null) {
+            return head.getValue();
+        }
+        return null;
+    }
+
+    @Override
+    public T poll() {
+        T t = null;
+        if (head != null) {
+            size--;
+            t = head.getValue();
+            head = head.getNext();
+        }
+        // 如果 head 来到空了，说明队列里已经没有值了，那么将 tail 置为空
+        if (head == null) {
+            tail = null;
+        }
+        return t;
+    }
+
+    @Override
+    public void offer(T value) {
+        LinkedList.SingleStackNode<T> node = new LinkedList.SingleStackNode<>(value);
+        if (tail == null) {
+            head = node;
+            tail = node;
+        } else {
+            tail.setNext(node);
+            tail = node;
+        }
+        size++;
+    }
+}
+
+class SingleStack<T> implements Collection<T> {
+    private int size;
+    private LinkedList.SingleStackNode<T> head;
+
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public T peek() {
+        if (head == null) {
+            return null;
+        }
+        return head.getValue();
+    }
+
+    @Override
+    public T poll() {
+        if (head == null) {
+            return null;
+        }
+        T t = head.getValue();
+        head = head.getNext();
+        size--;
+        return t;
+    }
+
+    @Override
+    public void offer(T value) {
+        LinkedList.SingleStackNode<T> node = new LinkedList.SingleStackNode<>(value);
+        if (head == null) {
+            head = node;
+        } else {
+            node.setNext(head);
+            head = node;
+        }
+        size++;
+    }
+}
+
+interface Collection<T> {
+
+    boolean isEmpty();
+
+    int size();
+
+    T peek();
+
+    T poll();
+
+    void offer(T value);
+}
+
+
 
 
 
