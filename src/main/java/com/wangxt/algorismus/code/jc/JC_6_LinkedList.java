@@ -1,11 +1,10 @@
 package com.wangxt.algorismus.code.jc;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-public class LinkedList {
+public class JC_6_LinkedList {
 
     @Getter
     @Setter
@@ -155,9 +154,9 @@ public class LinkedList {
 
 class SingleQueue<T> implements Collection<T> {
     // 记录 head ，因为出队需要从 head 往外出
-    private LinkedList.SingleStackNode<T> head;
+    private JC_6_LinkedList.SingleStackNode<T> head;
     // 记录 tail ，因为添加元素需要从 tail 添加
-    private LinkedList.SingleStackNode<T> tail;
+    private JC_6_LinkedList.SingleStackNode<T> tail;
 
     private int size;
 
@@ -196,7 +195,7 @@ class SingleQueue<T> implements Collection<T> {
 
     @Override
     public void offer(T value) {
-        LinkedList.SingleStackNode<T> node = new LinkedList.SingleStackNode<>(value);
+        JC_6_LinkedList.SingleStackNode<T> node = new JC_6_LinkedList.SingleStackNode<>(value);
         if (tail == null) {
             head = node;
             tail = node;
@@ -210,7 +209,7 @@ class SingleQueue<T> implements Collection<T> {
 
 class SingleStack<T> implements Collection<T> {
     private int size;
-    private LinkedList.SingleStackNode<T> head;
+    private JC_6_LinkedList.SingleStackNode<T> head;
 
     @Override
     public boolean isEmpty() {
@@ -243,7 +242,7 @@ class SingleStack<T> implements Collection<T> {
 
     @Override
     public void offer(T value) {
-        LinkedList.SingleStackNode<T> node = new LinkedList.SingleStackNode<>(value);
+        JC_6_LinkedList.SingleStackNode<T> node = new JC_6_LinkedList.SingleStackNode<>(value);
         if (head == null) {
             head = node;
         } else {

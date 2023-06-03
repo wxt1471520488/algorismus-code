@@ -6,14 +6,19 @@ import java.util.Stack;
  * 位运算
  * https://www.yuque.com/wangxiaotao-yq0j6/uyk8po/gqy14w/edit
  */
-public class BitOperation {
+public class JC_1_BitOperation {
 
     public static void main(String[] args) {
         int num = 8;
         print(num);
-        System.out.println();
         print2(num);
-        System.out.println();
+        System.out.println("-----------");
+
+        // -2的31次方 ~ 2的31次方-1
+        num = Integer.MAX_VALUE;
+        print(num);
+        num = Integer.MIN_VALUE;
+        print(num);
 
         play();
     }

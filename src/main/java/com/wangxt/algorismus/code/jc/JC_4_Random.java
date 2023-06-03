@@ -3,7 +3,7 @@ package com.wangxt.algorismus.code.jc;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Random {
+public class JC_4_Random {
 
     // 该函数可以获取到1-5的随机
     private static int random1_5() {
@@ -45,16 +45,24 @@ public class Random {
     public static void main(String[] args) {
         int times = 10000000;
         Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> map1 = new HashMap<>();
         for (int i = 0; i < times; i++) {
-            int i1 = m01_d();
+            int i1 = (int) (Math.random() * 7);
             if (map.containsKey(i1)) {
                 map.put(i1, map.get(i1) + 1);
             } else {
                 map.put(i1, 1);
             }
+            i1 = random0_6();
+            if (map1.containsKey(i1)) {
+                map1.put(i1, map1.get(i1) + 1);
+            } else {
+                map1.put(i1, 1);
+            }
         }
 
         System.out.println(map.toString());
+        System.out.println(map1.toString());
 
        // x2Power2();
         System.out.println("===================");

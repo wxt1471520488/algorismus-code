@@ -2,12 +2,12 @@ package com.wangxt.algorismus.code.jc;
 
 import java.util.Arrays;
 
-public class FindNum {
+public class JC_5_FindNum {
     public static void main(String[] args) {
-        /*int[] arr = {1, 2, 3, 4, 5, 7, 8, 9};
+        int[] arr = {1, 2, 3, 4, 5, 7, 8, 9};
 
-        int i = findMostLeft(arr, 6);
-        System.out.println(i);*/
+        int i = find(arr, 9);
+        System.out.println(i);
 
         test();
     }
@@ -89,6 +89,11 @@ public class FindNum {
         return res;
     }
 
+    /**
+     * 任任意相邻不相等的数组，找出任意一个局部最小
+     * @param arr
+     * @return
+     */
     private static int findMinimum(int[] arr) {
         if (arr.length == 0) {
             return -1;

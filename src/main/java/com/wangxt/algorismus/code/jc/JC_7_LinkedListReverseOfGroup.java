@@ -3,7 +3,7 @@ package com.wangxt.algorismus.code.jc;
 import lombok.Getter;
 import lombok.Setter;
 
-public class LinkedListReverseOfGroup {
+public class JC_7_LinkedListReverseOfGroup {
 
     @Getter
     @Setter

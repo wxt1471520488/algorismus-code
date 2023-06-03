@@ -2,7 +2,7 @@ package com.wangxt.algorismus.code.jc;
 
 import java.util.Arrays;
 
-public class SimpleSort {
+public class JC_2_SimpleSort {
 
     public static void main(String[] args) {
         int maxCount = 8;
@@ -108,7 +108,6 @@ public class SimpleSort {
                 swap(j,j-1,arr);
             }
         }
-
 
     }
 }
