@@ -70,9 +70,10 @@ public class JC_4_Random {
 
     /**
      * 因为Math.random得出的是[0,1)的随机数，
-     * Math.max(Math.random,Math.random),取两次random的最大值要小于x，那么两次random要同时小于x取最大值才小于x，所以两次random最大值得到x的概率就是x的平方
-     * Math。min(Math.random,Math.random),取两次random的最小值，因为是最小值，所以有一次random得到的值小于x，那么两次的最小值就小于x，相反，如果两次都不得x的概率
-     * 就是1-x的平方，那么能得到x的概率就是1-(1-x)的平方
+     * 生成的数小于x发生的概率就是x，生成的数大于x的概率就是1-x
+     * Math.max(Math.random,Math.random) < x, 2次random的最大值要小于x，那么2次的结果都要小于x，一次结果小于x的概率是x，2次都小于就是x²
+     * Math.min(Math.random,Math.random) < x, 2次random的最小值要小于x，那么只要有一次的结果小于x就行，也就是说两次都小于和任意一次小于都可以，那就是x² + 2x(1 - x) = 2x - x²
+     * 如果反过来推算，先求2次都大于x的概率就是(1 - x) * (1 - x)，再求两次都小于和任意一次小于，就是1 - (1 - x) * (1 - x) = 1 - (1 - x)²
      */
     private static void x2Power2() {
         int count = 0;
@@ -97,6 +98,7 @@ public class JC_4_Random {
 
         System.out.println((double) count / (double) testTimes);
         System.out.println(1 - Math.pow((1 - x), 2));
+        System.out.println(x * (1 - x));
     }
 
     //------------------------------------
