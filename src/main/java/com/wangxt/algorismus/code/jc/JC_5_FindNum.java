@@ -33,6 +33,9 @@ public class JC_5_FindNum {
         return -1;
     }
 
+    /**
+     * 在一个升序排列的数组 arr 中，找到第一个比给定数 num 大的元素的索引
+     **/
     private static int findLeft(int[] arr, int num) {
         int L = 0;
         int R = arr.length - 1;
@@ -49,44 +52,6 @@ public class JC_5_FindNum {
         }
 
         return result;
-    }
-
-
-    private static int findNum(int[] arr, int num) {
-        int L = 0;
-        int R = arr.length - 1;
-        while (L <= R) {
-            int M = (L + R) / 2;
-            if (arr[M] == num) {
-                return M;
-            }
-
-            if (arr[M] < num) {
-                L = M + 1;
-            } else {
-                R = M - 1;
-            }
-        }
-        return -1;
-    }
-
-    private static int findMostLeft(int[] arr, int num) {
-        int L = 0;
-        int R = arr.length - 1;
-
-        int res = -1;
-        while (L <= R) {
-            int M = (L + R) / 2;
-            // 如果M比num大，先记住M
-            if (arr[M] > num) {
-                res = M;
-                R = M - 1;
-            } else {
-                L = M + 1;
-            }
-        }
-
-        return res;
     }
 
     /**
