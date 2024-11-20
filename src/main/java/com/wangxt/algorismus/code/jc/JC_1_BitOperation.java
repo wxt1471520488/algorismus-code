@@ -62,7 +62,7 @@ public class JC_1_BitOperation {
     }
 
     public static void play() {
-        int a = 9;
+        int a = 5;
         int b = 3;
 
         print(a);

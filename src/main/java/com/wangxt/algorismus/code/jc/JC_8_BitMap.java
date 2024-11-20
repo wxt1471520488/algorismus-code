@@ -15,7 +15,7 @@ public class JC_8_BitMap {
     public void add(long num) {
         // 先判断在那个index, / 64, /64 和 << 6 效果一样
         long arrIndex = num / bits.length;
-        // 在判断在这个数的那一位上  % 64 ,% 64 和& 63 效果一样
+        // 在判断在这个数的那一位上  % 64 ,% 64 和& 63 效果一样，为什么要%，因为相当于把num按照64位来划分，然后取余数，相当于取到了该数在当前index上的位置
         long index = num % 64;
         // 在将该位置上的数置为1，将1左移index位，或上该位置的数
         bits[(int) arrIndex] = bits[(int) arrIndex] | (1L << index);

@@ -87,16 +87,18 @@ public class JC_6_LinkedList {
      * 单链表逆序
      */
     private static SingleNode reverseSort(SingleNode head) {
+        // 总体思想就是从头开始，一个个往外摘，为了把摘出来的节点抓住，所以先定义一个pre，实际是作为新的head
         SingleNode pre = null;
+        // 节点被一个个往外摘，那剩下的节点也得抓住，不然就丢在内存里了
         SingleNode next = null;
         while (head != null) {
-            // 先将 head 的 next 抓住
+            // 先将 head 的 next 抓住，这样就可以随便玩head了
             next = head.next;
-            // 然后将 head 的 next 指向 pre,这时候 head 和 next 没有任何指向（循环到第二次将）
+            // 开始转置，head原来指向next，转置后指向pre
             head.next = pre;
-            // 然后将 pre 往后移，叫 pre 指向 head
+            // 当前节点转置完了，得开始遍历下一个，但是得先把当前的节点抓住，所以叫pre把head抓住，这时相当于左手是新的head，右手是剩余的节点了
             pre = head;
-            // head 也往后移，这时 head 指向 第一步抓到的 next,往后循环
+            // 然后开始右手倒左手，遍历下一个节点
             head = next;
         }
 
@@ -110,11 +112,9 @@ public class JC_6_LinkedList {
         DoubleNode pre = null;
         DoubleNode next = null;
         while (head != null) {
-            // 一样，还是先将 head 的 next 抓住
             next = head.next;
-            // 然后将 head 的 next 指向 pre
+            // 和单向链表转置逻辑一样，只不过双向链表需要同时转置前后指针
             head.next = pre;
-            // 将 head 的 last 指向 next
             head.last = next;
             pre = head;
             head = next;
